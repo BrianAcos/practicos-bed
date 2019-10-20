@@ -1,0 +1,6 @@
+git remote add tarea git@github.com:BrianAcos/tarea.git
+git push -u tarea master
+
+git init
+git remote add origin a\valid\yet\bare\repository
+git pull origin master
