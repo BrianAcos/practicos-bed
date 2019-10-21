@@ -1,6 +1,16 @@
 //importo modulos
 const http = require('http');
 
+//lista de tareas
+const tareas = {
+    1: {
+        name: 'mi tarea numero uno'
+    },
+    2: {
+        name: 'mi tarea numero dos'
+    }
+};
+
 //crear el servidor
 const server = http.createServer((request, response) => {
 
@@ -94,6 +104,6 @@ const server = http.createServer((request, response) => {
     }
 });
 
-server.listen(3000, () => {
+server.listen(3003, () => {
     console.log("Server listening on port 3000.");
 });
