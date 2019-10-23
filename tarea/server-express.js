@@ -97,7 +97,7 @@ app.delete('/tareas/:id', function (req, res) {
 
 //modifico una tarea
 app.put('/tareas/:id', function (req, res) {
-    connection.query('UPDATE tareas SET descripcion = ?, avatar = null', [req.body.name], (err, rows, fields) => {
+    connection.query('UPDATE tareas SET descripcion = ?, avatar = null WHERE id = ?', [req.body.name, req.params.id], (err, rows, fields) => {
         if (!err) {
             res.send(`Has modificado la tarea ${req.params.id}`);
         } else {
