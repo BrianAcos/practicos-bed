@@ -12,7 +12,7 @@ label {
 }
 
 input {
-    width: 135px;
+    width: 300px;
     border-radius: 5px;
     display: block;
     margin: auto;
@@ -40,7 +40,16 @@ ul {
     margin: auto;
 }
 
+li {
+    display: flex;
+    align-items: center;
+}
+
 p {
     text-align: center;
 }
 
+img {
+    width: 50px;
+    padding: 10px;
+}

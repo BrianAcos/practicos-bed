@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //configurar multer
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ dest: 'public/uploads/' })
 
 
 //establesco parametros de coneccion con mi base de datos
@@ -40,10 +40,11 @@ app.get('/', function (req, res) {
 })
 
 // Agrego una tarea a la base de datos
-app.post('/tareas', function (req, res) {
-    connection.query('INSERT INTO tareas VALUES (? , ?, null)', [req.body.id, req.body.name], (err, resp, fields) => {
+app.post('/tareas', upload.single('avatar'), function (req, res) {
+    connection.query('INSERT INTO tareas VALUES (? , ?, ?)', [req.body.id, req.body.name, req.file.filename], (err, resp, fields) => {
         if (err) {
             console.log(err);
+            res.end(`Ocurrio un error: ${err}`)
         } else {
             //Consultamos el listado total de tareas de la base de datos
             connection.query('SELECT * FROM tareas', (err, rows, fields) => {
@@ -55,6 +56,7 @@ app.post('/tareas', function (req, res) {
                     });
                 } else {
                     console.log(err);
+                    res.end(`Ocurrio un error: ${err}`)
                 }
             });
         }
@@ -70,6 +72,7 @@ app.get('/tareas', function (req, res) {
             });
         } else {
             console.log(err);
+            res.end(`Ocurrio un error: ${err}`)
         }
     });
 });
@@ -77,10 +80,11 @@ app.get('/tareas', function (req, res) {
 //obtengo una tarea en especifico localhost:3000/tareas/id
 app.get('/tareas/:id', function (req, res) {
     connection.query('SELECT * FROM tareas WHERE id = ?', req.params.id, (err, rows, fields) => {
-        if (!err) {
-            res.send(JSON.stringify(rows));
-        } else {
+        if (rows == []) {
             console.log(err);
+            res.end(`La tarea ${req.params.id} no existe`)
+        } else {
+            res.send(JSON.stringify(rows));
         }
     });
 });
