@@ -6,12 +6,13 @@
         </style>
     </head>
     <body>
+        <h1><% text %></h1>
         <h1>Lista de tareas</h1>
         <div>
             <ul>
-                <% obj.forEach((obj) => { %>
+                <% lista.forEach((lista) => { %>
                     <li>
-                        Tarea <%=obj.id%>: <%=obj.descripcion%>
+                        Tarea <%=lista.id%>: <%=lista.descripcion%>
                     </li>
                 <%});%>
             </ul>
