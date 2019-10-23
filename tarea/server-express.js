@@ -34,32 +34,34 @@ connection.connect(function (err) {
     }
 });
 
-//agregar tarea
 //cuando entre a localhost con get muestro formulario para agregar tarea
 app.get('/', function (req, res) {
     res.render('formulario')
 })
 
+// Agrego una tarea a la base de datos
 app.post('/tareas', function (req, res) {
-    // Agregamos la tarea a la base de datos
-    connection.query('INSERT INTO tareas VALUES (? , ?)', [req.body.id, req.body.name], (err, resp, fields) => {
-        //TODO: ver si hubo error
-
-        //Consultamos el listado total de tareas de la base de datos
-        connection.query('SELECT * FROM tareas', (err, rows, fields) => {
-            if (!err) {
-                res.render('respuesta-agregar', {
-                    lista: rows,
-                    text: `Has agregado la tarea ${req.body.id}`
-                });
-            } else {
-                console.log(err);
-            }
-        });
+    connection.query('INSERT INTO tareas VALUES (? , ?, null)', [req.body.id, req.body.name], (err, resp, fields) => {
+        if (err) {
+            console.log(err);
+        } else {
+            //Consultamos el listado total de tareas de la base de datos
+            connection.query('SELECT * FROM tareas', (err, rows, fields) => {
+                if (!err) {
+                    // hago el render de el archivo respuesta-agregar y le paso 2 variables lista y text
+                    res.render('respuesta-agregar', {
+                        lista: rows,
+                        text: `Has agregado la tarea ${req.body.id}`
+                    });
+                } else {
+                    console.log(err);
+                }
+            });
+        }
     });
 });
 
-//obtengo todas las tareas
+//obtengo todas las tareas en localhost:3000/tareas
 app.get('/tareas', function (req, res) {
     connection.query('SELECT * FROM tareas', (err, rows, fields) => {
         if (!err) {
@@ -72,7 +74,7 @@ app.get('/tareas', function (req, res) {
     });
 });
 
-//obtengo una tarea en especifico
+//obtengo una tarea en especifico localhost:3000/tareas/id
 app.get('/tareas/:id', function (req, res) {
     connection.query('SELECT * FROM tareas WHERE id = ?', req.params.id, (err, rows, fields) => {
         if (!err) {
@@ -83,7 +85,7 @@ app.get('/tareas/:id', function (req, res) {
     });
 });
 
-// borrar una tarea
+// borrar una tarea localhost:3000/tareas/id
 app.delete('/tareas/:id', function (req, res) {
     connection.query('DELETE FROM tareas WHERE id = ?', req.params.id, (err, rows, fields) => {
         if (!err) {
@@ -95,7 +97,7 @@ app.delete('/tareas/:id', function (req, res) {
 });
 
 
-//modifico una tarea
+//modifico una tarea localhost:3000/tareas/id
 app.put('/tareas/:id', function (req, res) {
     connection.query('UPDATE tareas SET descripcion = ?, avatar = null WHERE id = ?', [req.body.name, req.params.id], (err, rows, fields) => {
         if (!err) {
@@ -106,7 +108,7 @@ app.put('/tareas/:id', function (req, res) {
     });
 });
 
-//Levanto la aplicación
+//Levanto la aplicación en localhost:3000
 app.listen(3000, function () {
     console.log("App corriendo en el puerto 3000");
 });

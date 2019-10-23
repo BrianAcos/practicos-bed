@@ -10,8 +10,12 @@
 <body>
     <h1>AGREGAR TAREAS</h1>
     <form action='/tareas' method="POST" enctype="application/x-www-form-urlencoded">
-        <input type="text" name="id" />
-        <input type="text" name="name" /> 
+        <label for="id"><span>ID</span></label>
+        <input type="text" name="id" id="id" /><br>
+        <label for="name"><span>Descripcion</span></label>
+        <input type="text" name="name" id="name"/> <br>
+        <label for="avatar"><span>Avatar</span></label>
+        <input type="file" name="avatar" id="avatar"/><br>
         <button type="submit">ENVIAR</button>
     </form>
 </body>
