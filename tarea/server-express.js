@@ -5,6 +5,10 @@ const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
+//requiriendo modulo de routes
+const register = require('./routes/register');
+
+
 //decirle a express que use ejs
 app.set('view engine', 'ejs');
 //configurar la ruta donde ser deben buscar las vistas
@@ -21,7 +25,7 @@ const upload = multer({ dest: 'public/uploads/' })
 const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'propiedaddeluis',
+    password: 'password',
     database: 'senpai',
 });
 
@@ -33,6 +37,8 @@ connection.connect(function (err) {
         console.log('DB Conected');
     }
 });
+
+app.use('/register', register(connection));
 
 //cuando entre a localhost con get muestro formulario para agregar tarea
 app.get('/', function (req, res) {
@@ -62,6 +68,9 @@ app.post('/tareas', upload.single('avatar'), function (req, res) {
         }
     });
 });
+
+//
+app.get('i')
 
 //obtengo todas las tareas en localhost:3000/tareas
 app.get('/tareas', function (req, res) {
@@ -113,6 +122,6 @@ app.put('/tareas/:id', function (req, res) {
 });
 
 //Levanto la aplicación en localhost:3000
-app.listen(3000, function () {
-    console.log("App corriendo en el puerto 3000");
+app.listen(3002, function () {
+    console.log("App corriendo en el puerto 3002");
 });
