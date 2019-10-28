@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" type="text/css">
+        <title> Express + EJS</title>
+        </style>
+    </head>
+    <body>
+        <h1>Lista de usuarios</h1>
+        <div>
+            <ul>
+                <% lista.forEach((lista) => { %>
+                    <li>
+                        <img src="uploads/<%=lista.avatar%>" alt="avatar"> <%= lista.username %> 
+                    </li>
+                <%});%>
+            </ul>
+        </div>
+        <%-include('footer');%>
+    </body>
+</html>

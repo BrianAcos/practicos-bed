@@ -18,7 +18,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //configurar multer
-const upload = multer({ dest: 'public/uploads/' })
+const upload = multer({ dest: 'public/uploads/' });
 
 
 //establesco parametros de coneccion con mi base de datos
@@ -38,7 +38,22 @@ connection.connect(function (err) {
     }
 });
 
+// cuando entro a localhost:3000/register me sale formulario para registrar usuario
 app.use('/register', register(connection));
+
+//cuando entro a localhost:3000/users me sale la lista de usuarios
+app.get('/users', function (req, res) {
+    connection.query('SELECT * FROM users', (err, rows, fields) => {
+        if (err) {
+            console.log(err);
+            res.end('Ocurrio un error');
+        } else {
+            res.render('users', {
+                lista: rows
+            });
+        }
+    });
+});
 
 //cuando entre a localhost con get muestro formulario para agregar tarea
 app.get('/', function (req, res) {
